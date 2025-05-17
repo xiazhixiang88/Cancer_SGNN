@@ -1,0 +1,29 @@
+#### general settings
+train_type: cnn
+eval_type: 
+gpu_ids: '0'
+
+#### datasets
+datasets:
+  dataset: "SUR"
+  wsi_path: "./data/WSI_svs/SUR"
+  task: "survival analysing"
+  train_path: "./data/SUR_Resnet_lv0/list_survival_f1/yuedix5_train.txt"
+  eval_path: "./data/SUR_Resnet_lv0/list_survival_f1/yuedix5_test.txt"
+  # valid_path: "./data/SUR_kimia_lv0/list_survival_f1/yuedix5_valid.txt"
+  num_workers: 16
+  patches_path: "./data/patches/WSI_svs/patches_lv0_ps1024_yuanfa115"
+
+
+#### Optimizer settings
+optimizer:
+  opt_method: "ADAM"
+  lr: 0.0001 # Learning rate
+  weight_decay: 0.005
+
+#### training settings: learning rate scheme, loss, optimizer
+train:
+  num_epochs: 1000
+  batch_size: 3
+
+  loss: "CE"

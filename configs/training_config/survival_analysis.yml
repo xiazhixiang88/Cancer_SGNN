@@ -1,0 +1,86 @@
+#### general settings
+name: PointHet
+train_type: gnn
+eval_type: homo-graph
+gpu_ids: '0'
+
+#### datasets
+datasets:
+  dataset: "SUR"
+  wsi_path: "./data/SUR/testing/images"
+  task: "survival analysing"
+  train_path: "./data/SUR_hover_lv1/list_survival_f1/yuedix5_train.txt"
+  eval_path: "./data/SUR_hover_lv1/list_survival_f1/yuedix5_test.txt"
+  all_path: "./data/SUR_hover_lv1/list_survival_f1/yuedix5_all.txt"
+  normal_path: "./data/clinical_data/typing_BRCA.txt"
+  has_graph: True
+  num_workers: 16
+  patches_path: "./data/patches/WSI_svs/patches_lv1_ps256/SUR"
+
+#### Checkpoint settings
+checkpoint:
+  path: "./checkpoints/HEAT2_BRCA_Kimia_typing_lv0_f2"
+  save_checkpoint_freq: 5
+
+#### Patches extractor settingss
+selector:
+
+  n_channel: 3
+  pixel_th: 200
+
+  level: 5
+  patch_size: 256
+  verbose: 0
+
+#### Optimizer settings
+optimizer:
+  opt_method: "ADAM"
+  lr: 0.0002 # Learning rate
+  weight_decay: 0.005
+
+#### GNN settings
+GNN:
+  name: "GCN"
+  num_layers: 2
+  in_dim: 512
+  hidden_dim: 32
+  out_dim: 64
+  n_heads: 4
+  num_out_heads: 1
+  feat_drop: 0.2
+  attn_drop: 0.2
+  pooling_list: [
+                # 'att',
+                # 'mean',
+                'max',
+                # 'min',
+                # 'skewness',
+                # 'kurtosis',
+                ]
+
+  graph_pooling_type: att
+
+# GNN:
+#   name: "GAT"
+#   negative_slope: 0.2
+#   num_layers: 2
+#   in_dim: 1024
+#   hidden_dim: 512
+#   residual: True
+#   in_drop: 0.2
+#   attn_drop: 0.2
+#   out_dim: 2
+#   num_heads: 4
+#   num_out_heads: 1
+#   feat_drop: 0.4
+
+#### training settings: learning rate scheme, loss, optimizer
+train:
+  num_epochs: 5
+  batch_size: 3
+
+  loss: "CE"
+
+eval:
+  explainer_name: GemExplainer
+  explain_path: "./plots/HEAT_COADv2_full_Kimia_lv0_expl_typing/"
