@@ -45,8 +45,8 @@ class GraphDataset(Dataset):
                 edge_index=graph.edge_index,
             )
 
-        survival_time = survival_info['生存时间'].iloc[0]
-        event = int(survival_info['事件'])
+        survival_time = survival_info['survival_time'].iloc[0]
+        event = int(survival_info['event'])
 
         survival_label = torch.tensor([survival_time, event], dtype=torch.float32).to(self.device)
         return clean_graph, survival_label
@@ -111,8 +111,8 @@ class GNNTrainer(Trainer):
                 graph = torch.load(graph_path).to(self.device)
             
             all_ids.append(slide_id)
-            survival_time = survival_info['生存时间'].iloc[0]
-            event = int(survival_info['事件'])
+            survival_time = survival_info['survival_time'].iloc[0]
+            event = int(survival_info['event'])
             
             survival_label = torch.tensor([survival_time, event], dtype=torch.float32).to(self.device)
             all_graphs.append(graph)
